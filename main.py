@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Toplevel, PhotoImage, Button,Label
+from tkinter import Toplevel, PhotoImage, Button,Label,Entry
 import random
 
 window_width = 800
@@ -13,6 +13,36 @@ def center_window(window, width, height):
     y = int((screen_height - height) / 2)
     window.geometry(f"{width}x{height}+{x}+{y}")
 
+
+def login(email, senha):
+    if email == "user@example.com" and senha == "password123":
+        return True
+    return False
+
+def criar_tela_login():
+    janela_login = tk.Toplevel(root)
+    janela_login.title("Tela de Login")
+    center_window(janela_login, 300, 200)
+
+    label_email = Label(janela_login, text="E-mail:")
+    label_email.pack(pady=(10, 0))
+    entry_email = Entry(janela_login, width=30)
+    entry_email.pack(pady=(0, 10))
+
+    label_senha = Label(janela_login, text="Senha:")
+    label_senha.pack(pady=(10, 0))
+    entry_senha = Entry(janela_login, show="*", width=30)
+    entry_senha.pack(pady=(0, 10))
+
+    def handle_login():
+        if login(entry_email.get(), entry_senha.get()):
+            janela_login.destroy()
+            root.deiconify()  # Mostra a janela principal após o login
+        else:
+            Label(janela_login, text="Login falhou! Tente novamente.", fg="red").pack()
+
+    botao_login = Button(janela_login, text="Login", command=handle_login)
+    botao_login.pack(pady=10)
 
 def abrir_janela_esp32():
     janela_esp32 = Toplevel(root)
@@ -72,7 +102,12 @@ def abrir_janela_perfil():
 
 root = tk.Tk()
 root.title("Tela Principal")
+center_window(root, window_width, window_height)
+root.withdraw()
 
+criar_tela_login()
+button_frame = tk.Frame(root)
+button_frame.pack(expand=True)
 
 original_icon1 = PhotoImage(file='img\esp32.png')
 original_icon2 = PhotoImage(file='img\Arduino.png')
@@ -83,22 +118,16 @@ arduino_icon = original_icon2.subsample(4, 4)
 profile_icon = original_icon3.subsample(4, 4)
 
 
-center_window(root, window_width, window_height)
-
-
-button_frame = tk.Frame(root)
-button_frame.pack(expand=True)
-
-esp32_button = Button(
-    button_frame, image=register_icon, command=abrir_janela_esp32)
+esp32_button = Button(button_frame, image=register_icon, command=lambda: abrir_janela_esp32())
 esp32_button.pack(side="left", padx=50)
 
-arduino_button = Button(button_frame, image=arduino_icon,
-                        command=abrir_janela_arduino)
+arduino_button = Button(button_frame, image=arduino_icon, command=lambda: abrir_janela_arduino())
 arduino_button.pack(side="left", padx=50)
 
-perfil_button = Button(button_frame, image=profile_icon,
-                       command=abrir_janela_perfil)
+perfil_button = Button(button_frame, image=profile_icon, command=lambda: abrir_janela_perfil())
 perfil_button.pack(side="left", padx=50)
+
+
+
 
 root.mainloop()
