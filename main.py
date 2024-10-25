@@ -5,16 +5,20 @@ from screens.arduino import abrir_janela_arduino
 from screens.perfil import abrir_janela_perfil
 from screens.centraliza_tela import center_window
 from screens.config_screens import window_height,window_width
-
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from ttkbootstrap.style import Style
 root = tk.Tk()
+
 root.title("Tela Principal")
 center_window(root, window_width, window_height)
 root.withdraw()
+style = Style(theme="superhero")
 
 criar_tela_login(root)  # Start the application with the login screen
 
 button_frame = tk.Frame(root)
-button_frame.pack(expand=True, fill='both')
+button_frame.pack(expand=True)
 
 
 original_icon1 = tk.PhotoImage(file='img\esp32.png')
