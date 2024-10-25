@@ -1,5 +1,10 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import tkinter as tk
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from ttkbootstrap.style import Style
+
 from .centraliza_tela import center_window
 from .config_screens import window_height,window_width
 
@@ -10,7 +15,6 @@ def abrir_janela_esp32(root):
     janela_esp32.title("ESP32")
     center_window(janela_esp32, window_width, window_height)
     janela_esp32.resizable(False, False)
-
     
     # Variável para armazenar o ID gerado
     id_var = tk.StringVar(value="")
