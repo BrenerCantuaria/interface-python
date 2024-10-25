@@ -8,8 +8,9 @@ from screens.config_screens import window_height,window_width
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from ttkbootstrap.style import Style
-root = tk.Tk()
 
+
+root = tk.Tk()
 root.title("Tela Principal")
 center_window(root, window_width, window_height)
 root.withdraw()
@@ -30,13 +31,13 @@ arduino_icon = original_icon2.subsample(4, 4)
 profile_icon = original_icon3.subsample(4, 4)
 
 
-esp32_button = tk.Button(button_frame, image=register_icon, command=lambda: abrir_janela_esp32(root))
+esp32_button = ttk.Button(button_frame, image=register_icon, command=lambda: abrir_janela_esp32(root), bootstyle="secondary-outline")
 esp32_button.pack(side="left", padx=50)
 
-arduino_button = tk.Button(button_frame, image=arduino_icon, command=lambda: abrir_janela_arduino(root))
+arduino_button = ttk.Button(button_frame, image=arduino_icon, command=lambda: abrir_janela_arduino(root), bootstyle="secondary-outline")
 arduino_button.pack(side="left", padx=50)
 
-perfil_button = tk.Button(button_frame, image=profile_icon, command=lambda: abrir_janela_perfil(root))
+perfil_button = ttk.Button(button_frame, image=profile_icon, command=lambda: abrir_janela_perfil(root), bootstyle="secondary-outline")
 perfil_button.pack(side="left", padx=50)
 
 
