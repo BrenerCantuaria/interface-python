@@ -10,7 +10,6 @@ from .config_screens import window_height, window_width
 from service.serial import get_existing_id
 
 
-
 def abrir_janela_esp32(root):
     janela_esp32 = tk.Toplevel(root)
     janela_esp32.title("ESP32")
@@ -29,12 +28,21 @@ def abrir_janela_esp32(root):
     # Posiciona no centro da janela
     container.place(relx=0.5, rely=0.5, anchor='center')
 
-    # Campo de entrada do nome da ESP32
-    label_name = ttk.Label(container, text="Nome do dispositivo: ", font=("Helvetica", 14))
-    label_name.pack(pady=(10, 0))
-    entry_name = ttk.Entry(container , width=40)
-    entry_name.pack(ipady=10, pady=20)
+    label_port = ttk.Label(container, text="Selecione a porta serial:")
+    label_port.pack(pady=(10, 0))
 
+    port_combobox = ttk.Combobox(container, width=37)
+    port_combobox['values'] = ['COM3', 'COM4', 'COM5']
+    port_combobox.pack(pady=10)
+    port_combobox.current(0)
+
+    
+    # Campo de entrada do nome da ESP32
+    label_name = ttk.Label(
+        container, text="Nome do dispositivo: ", font=("Helvetica", 14))
+    label_name.pack(pady=(10, 0))
+    entry_name = ttk.Entry(container, width=40)
+    entry_name.pack(ipady=10, pady=20)
 
     # Campo de entrada de ID
     label_id = ttk.Label(container, text="ID: ", font=("Helvetica", 14))
