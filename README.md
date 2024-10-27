@@ -22,16 +22,44 @@ Para executar este projeto, você precisará de:
 - Tkinter instalado com Python (geralmente vem pré-instalado com as versões padrão do Python).
 
 ## Estrutura de Arquivos
-
-- `main.py`: Arquivo principal contendo o código da interface gráfica e lógica de gerenciamento.
-- `img/`: Diretório contendo os ícones usados na interface gráfica.
+```bash
+/img
+    ├── Arduino.png
+    ├── energy-system.png
+    ├── esp32.png
+    └── perfil.png
+/screens
+    ├── __pycache__
+    ├── __init__.py
+    ├── arduino.py
+    ├── centraliza_tela.py
+    ├── config_screens.py
+    ├── esp32.py
+    ├── login.py
+    └── perfil.py
+/.gitignore
+main.py
+README.md
+requirements.txt
+```
 
 ## Execução
 
 Para rodar o programa, siga os passos abaixo:
 1. Clone o repositório ou baixe os arquivos para sua máquina local.
+   ```bash
+     git clone https://github.com/BrenerCantuaria/interface-python.git
+   ```
 2. Navegue até o diretório do projeto.
-3. Execute o comando abaixo no terminal ou prompt de comando:
+  ```bash
+    cd <nome-do-diretório-clonado>
+  ```
+3. Instale todas as dependências necessárias para rodar o projeto, utilizando o arquivo requirements.txt:
+   ```bash
+     pip install -r requirements.txt
+   ```
+4. Execute o comando abaixo no terminal ou prompt de comando:
 
    ```bash
-   python main.py
+     python main.py
+   ```
