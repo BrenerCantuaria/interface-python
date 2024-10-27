@@ -6,7 +6,6 @@ from ttkbootstrap.constants import *
 from ttkbootstrap.style import Style
 import ttkbootstrap as ttkb
 
-
 def login(email, senha):
     return email == "admin" and senha == "admin"
 
