@@ -5,6 +5,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from ttkbootstrap.style import Style
 import ttkbootstrap as ttkb
+import keyboard as kb
 
 def login(email, senha):
     return email == "admin" and senha == "admin"
@@ -27,6 +28,8 @@ def criar_tela_login(root):
     label_senha.pack(pady=(10, 0))
     entry_senha = ttk.Entry(container, show="*", width=30, font=("Helvetica", 14))
     entry_senha.pack(pady=(0, 10))
+
+    kb.on_press_key("enter", lambda _: handle_login())
 
     def handle_login():
         if login(entry_email.get(), entry_senha.get()):
