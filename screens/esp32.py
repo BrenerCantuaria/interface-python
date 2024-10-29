@@ -101,7 +101,7 @@ def abrir_janela_esp32(root):
         save_button.pack_forget()  # Oculta o botão Gravar
 
     def save_database():
-        messagebox.showinfo("Salvar", "Alterações salvar no banco de dados")
+        messagebox.showinfo("Salvar", "Alterações salvas no banco de dados")
 
    
 
