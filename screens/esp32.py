@@ -9,7 +9,7 @@ from .centraliza_tela import center_window
 from .config_screens import window_height, window_width
 from service.serial import get_existing_id
 from service.serial import send_device_info, open_serial_connection
-
+from screens.close_screen import CloseScreen
 
 def abrir_janela_esp32(root):
     root.withdraw()
@@ -18,15 +18,14 @@ def abrir_janela_esp32(root):
     center_window(janela_esp32, window_width, window_height)
     janela_esp32.resizable(False, False)
     janela_esp32.grab_set()
+    fecha_janela = CloseScreen(root=root)
 
     # Fecha a janela atual
     def voltar_tela_principal():
         janela_esp32.destroy()
         root.deiconify()  # Mostra a tela principal novamente
 
-    def on_close():
-        janela_esp32.destroy()
-        root.deiconify()  # Mostra a janela principal novamente
+   
 
     # Variável para armazenar o informações
     id_var = tk.StringVar(value="")
@@ -115,6 +114,6 @@ def abrir_janela_esp32(root):
     salvar_alteracoes.pack(side='bottom', pady=20)  # Posiciona no fundo da janela
 
     # Fechamento da tela
-    voltar_button = tk.Button(janela_esp32, text="← Voltar", command=voltar_tela_principal)
+    voltar_button = tk.Button(janela_esp32, text="← Voltar",  command=lambda: fecha_janela.close_and_return(janela_esp32))
     voltar_button.place(x=10, y=10)
-    janela_esp32.protocol("WM_DELETE_WINDOW", on_close)
+    janela_esp32.protocol("WM_DELETE_WINDOW", lambda: fecha_janela.close_and_return(janela_esp32))
