@@ -72,6 +72,7 @@ O script possui três funções principais:
 - Retornos:
   - Um dicionário contendo o nome do dispositivo ("nome") e o ID do dispositivo ("id").None se nenhum dado for recebido ou se o formato dos dados estiver incorreto.
 - Processo Exemplo:
+  - Essa função deve retornar uma string, como está no exemplo abaixo.
 ```bash
   "ESP32 Dev Kit,777-111-222"
 ```
@@ -94,9 +95,9 @@ Para rodar o programa, siga os passos abaixo:
      git clone https://github.com/BrenerCantuaria/interface-python.git
    ```
 2. Navegue até o diretório do projeto.
-  ```bash
-    cd <nome-do-diretório-clonado>
-  ```
+    ```bash
+      cd <nome-do-projeto>
+    ```
 3. Instale todas as dependências necessárias para rodar o projeto, utilizando o arquivo requirements.txt:
    ```bash
      pip install -r requirements.txt
