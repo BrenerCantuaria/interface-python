@@ -20,13 +20,8 @@ def abrir_janela_esp32(root):
     janela_esp32.grab_set()
     fecha_janela = CloseScreen(root=root)
 
-    # Fecha a janela atual
-    def voltar_tela_principal():
-        janela_esp32.destroy()
-        root.deiconify()  # Mostra a tela principal novamente
-
-   
-
+    
+    
     # Variável para armazenar o informações
     id_var = tk.StringVar(value="")
     nome_dispositivo = tk.StringVar(value="")
@@ -57,6 +52,7 @@ def abrir_janela_esp32(root):
     # Adiciona um observador para mudanças no Combobox
     def on_port_selected(event):
         selected_port = port_combobox.get()
+        print(f"Porta selecionada: {selected_port}")
         open_serial_connection(selected_port)
 
     port_combobox.bind("<<ComboboxSelected>>", on_port_selected)
