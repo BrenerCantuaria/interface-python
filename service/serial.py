@@ -5,21 +5,24 @@ baudrate = 115200  # Velocidade de comunicação
 def open_serial_connection(port):
     try:
         serial_connection = serial.Serial(port, baudrate, timeout=1)
-        return serial_connection
+        return serial_connection, True
     except Exception as e:
         print(f"Erro ao abrir porta serial {port}: {e}")
-        return None
-
-import serial
-import time
+        return None,False
 
 # Essa função retorna um dicionário do python
 def get_existing_data(serial_connection):
     if serial_connection:
         try:
-            serial_connection.write(b'getData\n')  # Comando enviado ao ESP32 para pedir os dados
+            #serial_connection.write(b'getData\n')  # Comando enviado ao ESP32 para pedir os dados
             time.sleep(1)  # Dá tempo para o ESP32 responder
             existing_data = serial_connection.readline().decode().strip()
+            """
+                ->Este é um exemplo do que deve conter a variável existing_data:
+                    'ESP32 Dev Kit,777-111-222'
+                Ela deve conter o nome do dispositivo e o ID, separados por vírgula
+            """
+            # existing_data = 'ESP32 Dev Kit,777-111-222'
             if existing_data:
                 # Supondo que os dados sejam separados por vírgula
                 parts = existing_data.split(',')
