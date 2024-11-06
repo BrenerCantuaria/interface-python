@@ -42,6 +42,49 @@ main.py
 README.md
 requirements.txt
 ```
+# Comunicação Serial com ESP32 - Guia de Uso
+
+## Introdução
+Este é um script Python criado para facilitar a comunicação entre um computador e um dispositivo ESP32 via porta serial. Ele permite que você obtenha dados de um dispositivo ESP32, como nome do dispositivo e ID, além de enviar informações para o dispositivo.
+
+Este documento vai te ajudar a entender o que o script faz, como ele funciona e como usá-lo, mesmo que você não tenha experiência com programação.
+
+## Estrutura do Script
+O script possui três funções principais:
+
+- Abrir Conexão Serial (open_serial_connection): Inicia a conexão com o dispositivo ESP32.
+- Obter Dados do Dispositivo (get_existing_data): Recebe informações do ESP32.
+- Enviar Informações para o Dispositivo (send_device_info): Envia dados para o ESP32.
+
+# Visão Geral das Funções
+## 1. open_serial_connection(port)
+  Esta função estabelece uma conexão serial com o dispositivo ESP32 em uma porta especificada.
+- Parâmetros:
+  - port (string): A porta onde o dispositivo ESP32 está conectado.
+- Retornos:
+  - serial_connection (objeto): O objeto de conexão serial se a conexão for bem-sucedida.
+  - status (booleano): Retorna True se a conexão for estabelecida com sucesso, False se ocorrer um erro.
+## 2. get_existing_data(serial_connection)
+  Esta função solicita e recupera informações do dispositivo (ex.: nome e ID do dispositivo) do ESP32.
+
+- Parâmetros:
+  - serial_connection (objeto): Um objeto de conexão serial ativa.
+- Retornos:
+  - Um dicionário contendo o nome do dispositivo ("nome") e o ID do dispositivo ("id").None se nenhum dado for recebido ou se o formato dos dados estiver incorreto.
+- Processo Exemplo:
+```bash
+  "ESP32 Dev Kit,777-111-222"
+```
+## 3. send_device_info(serial_connection, name, device_id)
+  Esta função envia informações de identificação (nome e ID) para o ESP32.
+
+- Parâmetros:
+
+  - serial_connection (objeto): Um objeto de conexão serial ativa.
+  - name (string): O nome do dispositivo.
+  -  device_id (string): O ID único do dispositivo.
+-  Processo:
+  - A função formata name e device_id em uma única string, separada por uma vírgula. Envia a string de dados para o ESP32 através da conexão serial.
 
 ## Execução
 
@@ -59,7 +102,6 @@ Para rodar o programa, siga os passos abaixo:
      pip install -r requirements.txt
    ```
 4. Execute o comando abaixo no terminal ou prompt de comando:
-
    ```bash
      python main.py
    ```
