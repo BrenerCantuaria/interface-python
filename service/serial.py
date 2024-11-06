@@ -14,7 +14,7 @@ def open_serial_connection(port):
 def get_existing_data(serial_connection):
     if serial_connection:
         try:
-            #serial_connection.write(b'getData\n')  # Comando enviado ao ESP32 para pedir os dados
+            serial_connection.write(b'getData\n')  # Comando enviado ao ESP32 para pedir os dados
             time.sleep(1)  # Dá tempo para o ESP32 responder
             existing_data = serial_connection.readline().decode().strip()
             """
