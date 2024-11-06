@@ -10,17 +10,28 @@ def open_serial_connection(port):
         print(f"Erro ao abrir porta serial {port}: {e}")
         return None
 
-def get_existing_id(serial_connection = True):
+import serial
+import time
+
+# Essa função retorna um dicionário do python
+def get_existing_data(serial_connection):
     if serial_connection:
         try:
-            serial_connection.write(b'getID\n')  # Comando enviado ao ESP32 para pedir o ID
+            serial_connection.write(b'getData\n')  # Comando enviado ao ESP32 para pedir os dados
             time.sleep(1)  # Dá tempo para o ESP32 responder
-            existing_id = serial_connection.readline().decode().strip()
-            return existing_id
+            existing_data = serial_connection.readline().decode().strip()
+            if existing_data:
+                # Supondo que os dados sejam separados por vírgula
+                parts = existing_data.split(',')
+                if len(parts) == 2:  # Certifique-se de que a string está no formato esperado
+                    nome_dispositivo, id_retornado = parts
+                    return {"nome": nome_dispositivo, "id": id_retornado}
+            return None
         except Exception as e:
             print(f"Erro ao ler da porta serial: {e}")
             return None
     return None
+
 
 def send_device_info(serial_connection, name, device_id):
     if serial_connection:
