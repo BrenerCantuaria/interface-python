@@ -66,9 +66,10 @@ O script possui três funções principais:
   - status (booleano): Retorna True se a conexão for estabelecida com sucesso, False se ocorrer um erro.
 ## 2. get_existing_data(serial_connection)
   Esta função solicita e recupera informações do dispositivo (ex.: nome e ID do dispositivo) do ESP32.
-
+  
 - Parâmetros:
   - serial_connection (objeto): Um objeto de conexão serial ativa.
+  - Envia uma string 'getData' para o ESP32 e Arduino em suas respectivas telas.
 - Retornos:
   - Um dicionário contendo o nome do dispositivo ("nome") e o ID do dispositivo ("id").None se nenhum dado for recebido ou se o formato dos dados estiver incorreto.
 - Processo Exemplo:
