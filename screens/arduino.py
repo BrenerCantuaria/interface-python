@@ -81,7 +81,6 @@ def abrir_janela_arduino(root):
     entry_id = ttk.Entry(container, width=40, textvariable=id_var, state='disabled' if id_var.get() else 'normal')
     entry_id.pack(pady=(0, 20))
 
-    # Botão para voltar à tela principal
     voltar_button = tk.Button(janela_arduino, text="← Voltar", command=lambda: fecha_janela.close_and_return(janela_arduino))
     voltar_button.place(relx=0.01, rely=0.01, anchor='nw')
 
