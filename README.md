@@ -59,6 +59,7 @@ O script possui três funções principais:
 # Visão Geral das Funções
 ## 1. open_serial_connection(port)
   Esta função estabelece uma conexão serial com o dispositivo ESP32 em uma porta especificada.
+- baudrate = 115200  # Velocidade de comunicação
 - Parâmetros:
   - port (string): A porta onde o dispositivo ESP32 está conectado.
 - Retornos:
