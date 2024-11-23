@@ -24,6 +24,13 @@ def abrir_janela_arduino(root):
     id_var = tk.StringVar(value="")
     nome_dispositivo = tk.StringVar(value="")
 
+     # Conexão serial global
+    global serial_connection_arduino
+    serial_connection_arduino = open_serial_connection('COM4')  # Assume que retorna um tuple (connection, status)
+    print(serial_connection_arduino)
+    if not serial_connection_arduino:
+        messagebox.showerror("Erro Serial", "Não foi possível abrir a conexão serial na porta padrão. COM4")
+
     # Container principal para os widgets
     container = ttk.Frame(janela_arduino)
     container.pack(padx=20, pady=20, fill='both', expand=True)
@@ -45,13 +52,13 @@ def abrir_janela_arduino(root):
     port_combobox.pack(pady=10)
     port_combobox.set('COM4')  # Define a porta padrão
 
-    # Monitora mudanças na seleção da porta serial
+     # Monitora mudanças na seleção da porta serial
     def on_port_selected(event):
         global serial_connection_arduino
         selected_port = port_combobox.get()
         new_connection, success = open_serial_connection(selected_port)
         if success:
-            serial_connection_arduino = new_connection
+            serial_connection_arduino = new_connection  # Atualiza a conexão serial diretamente
             messagebox.showinfo("Conexão Serial", f"Conexão estabelecida com sucesso na porta {selected_port}.")
         else:
             messagebox.showerror("Conexão Serial", f"Falha ao estabelecer conexão na porta {selected_port}.")
@@ -84,4 +91,14 @@ def abrir_janela_arduino(root):
     voltar_button = tk.Button(janela_arduino, text="← Voltar", command=lambda: fecha_janela.close_and_return(janela_arduino))
     voltar_button.place(relx=0.01, rely=0.01, anchor='nw')
 
-    janela_arduino.protocol("WM_DELETE_WINDOW", lambda: fecha_janela.close_and_return(janela_arduino))
+     # Fechamento da tela com fechamento da conexão serial
+    def close_window_and_serial(serial):
+        if serial:
+            try:
+                serial[0].close()   # Tenta fechar a conexão serial
+                print("Conexão serial fechada com sucesso.")
+            except Exception as e:
+                print(f"Erro ao fechar a conexão serial: {e}")
+        fecha_janela.close_and_return(janela_arduino)
+
+    janela_arduino.protocol("WM_DELETE_WINDOW", lambda: close_window_and_serial(serial_connection_arduino))

@@ -12,6 +12,7 @@ def open_serial_connection(port):
 
 # Essa função retorna um dicionário do python
 def get_existing_data(serial_connection):
+    print(f'porta: {serial_connection}')
     if serial_connection:
         try:
             serial_connection.write(b'getData\n')  # Comando enviado ao ESP32 para pedir os dados

@@ -129,16 +129,15 @@ def abrir_janela_esp32(root):
             "Erro", "Nome do dispositivo e ID são necessários.")
 
 
+     # Fechamento da tela com fechamento da conexão serial
     def close_window_and_serial(serial):
-        print(f'close serial: {serial}')
-        if serial_connection:
+        if serial:
             try:
-                serial_connection.close()  # Tenta fechar a conexão serial
+                serial[0].close()  # Tenta fechar a conexão serial
                 print("Conexão serial fechada com sucesso.")
             except Exception as e:
                 print(f"Erro ao fechar a conexão serial: {e}")
         fecha_janela.close_and_return(janela_esp32)
 
+    janela_esp32.protocol("WM_DELETE_WINDOW", lambda: close_window_and_serial(serial_connection))
 
-
-    janela_esp32.protocol("WM_DELETE_WINDOW", lambda:  close_window_and_serial(serial_connection))
