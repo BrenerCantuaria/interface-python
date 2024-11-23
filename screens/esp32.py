@@ -9,6 +9,10 @@ from .config_screens import window_height, window_width
 from service.serial import send_device_info, open_serial_connection, get_existing_data
 from screens.close_screen import CloseScreen
 
+# Variável global para a conexão serial
+serial_connection = None
+
+
 
 def abrir_janela_esp32(root):
     root.withdraw()
@@ -28,18 +32,9 @@ def abrir_janela_esp32(root):
     serial_connection = open_serial_connection('COM4')  # Assume que retorna um tuple (connection, status)
     print(serial_connection)
     if not serial_connection:
-        messagebox.showerror("Erro Serial", "Não foi possível abrir a conexão serial na porta padrão. COM3")
+        messagebox.showerror("Erro Serial", "Não foi possível abrir a conexão serial na porta padrão. COM4")
 
     
-
-    # Obter dados existentes do dispositivo
-    existing_data = get_existing_data(True)
-    can_generate_id = True  # Presume que pode gerar um novo ID por padrão
-    if existing_data:
-        nome_dispositivo.set(existing_data['nome'])
-        id_var.set(existing_data['id'])
-        can_generate_id = False  # Desativa a geração de novo ID se já existir
-
     # Container principal para os widgets
     container = ttk.Frame(janela_esp32)
     container.place(relx=0.5, rely=0.5, anchor='center')
@@ -48,7 +43,7 @@ def abrir_janela_esp32(root):
     label_port = ttk.Label(container, text="Selecione a porta serial:")
     label_port.pack(pady=(10, 0))
     port_combobox = ttk.Combobox(container, width=37, values=[
-                                 'COM3', 'COM4', 'COM5'])
+                                 'COM3', 'COM4', 'COM5'], state='readonly')
     port_combobox.pack(pady=10)
     port_combobox.set('COM4')  # Define a porta padrão ou a última usada
     
@@ -64,6 +59,34 @@ def abrir_janela_esp32(root):
 
     port_combobox.bind("<<ComboboxSelected>>", on_port_selected)
 
+    # Botões de ação
+    voltar_button = tk.Button(janela_esp32, text="← Voltar", command=lambda: fecha_janela.close_and_return(janela_esp32))
+    voltar_button.place(relx=0.01, rely=0.01, anchor='nw')
+
+    buscar_dados_button = ttk.Button(janela_esp32, text="Buscar Dados", command=lambda: buscar_dados())
+    buscar_dados_button.place(relx=0.99, rely=0.01, anchor='ne')
+
+    def buscar_dados():
+        data = get_existing_data(serial_connection=serial_connection)
+        if data:
+            nome_dispositivo.set(data['nome'])
+            id_var.set(data['id'])
+            entry_id.config(state='disabled')
+            generate_button.config(state='disabled')
+        else:
+            messagebox.showwarning("Dados não encontrados", "Nenhuma informação foi encontrada.")
+
+
+    # Função para fechar a janela e encerrar a conexão serial
+    def close_window_and_serial():
+        if serial_connection:
+            try:
+                serial_connection.close()
+                print("Conexão serial fechada com sucesso.")
+            except Exception as e:
+                print(f"Erro ao fechar a conexão serial: {e}")
+        fecha_janela.close_and_return(janela_esp32)
+
     # Campo de entrada do nome do dispositivo
     label_name = ttk.Label(
         container, text="Nome do dispositivo:", font=("Helvetica", 14))
@@ -75,19 +98,20 @@ def abrir_janela_esp32(root):
     label_id = ttk.Label(container, text="ID:", font=("Helvetica", 14))
     label_id.pack(pady=(10, 0))
     entry_id = ttk.Entry(container, textvariable=id_var, width=40,
-                         state='normal' if can_generate_id else 'disabled')
+                         state='normal')
     entry_id.pack(ipady=10, pady=20)
 
     # Botão para gerar um novo ID
     generate_button = ttk.Button(
         container, text="Gerar ID", command=lambda: generate_id(id_var))
-    if can_generate_id:
-        generate_button.pack(side='left', padx=10)
+    generate_button.pack(side='left', padx=10)
 
     # Botão para salvar as alterações
     save_button = ttk.Button(container, text="Salvar alterações", command=lambda: save_id(
         serial_connection, nome_dispositivo.get(), id_var.get()))
     save_button.pack(side='bottom', pady=20)
+
+    
 
 
     def generate_id(id_var):
@@ -104,7 +128,17 @@ def abrir_janela_esp32(root):
             messagebox.showerror(
             "Erro", "Nome do dispositivo e ID são necessários.")
 
-    # Fechamento da tela
-    voltar_button = tk.Button(janela_esp32, text="← Voltar",  command=lambda: fecha_janela.close_and_return(janela_esp32))
-    voltar_button.place(x=10, y=10)
-    janela_esp32.protocol("WM_DELETE_WINDOW", lambda: fecha_janela.close_and_return(janela_esp32))
+
+    def close_window_and_serial(serial):
+        print(f'close serial: {serial}')
+        if serial_connection:
+            try:
+                serial_connection.close()  # Tenta fechar a conexão serial
+                print("Conexão serial fechada com sucesso.")
+            except Exception as e:
+                print(f"Erro ao fechar a conexão serial: {e}")
+        fecha_janela.close_and_return(janela_esp32)
+
+
+
+    janela_esp32.protocol("WM_DELETE_WINDOW", lambda:  close_window_and_serial(serial_connection))
